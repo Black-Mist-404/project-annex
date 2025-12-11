@@ -1,0 +1,140 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Player Info - {{ player.name }}{% endblock %}
+
+{% block body %}
+<div class="container-fluid px-4 py-5">
+    <div class="card border-0 shadow-lg rounded-3 overflow-hidden">
+        <div class="card-body p-5">
+            <div class="row">
+                <div class="col-md-4 text-center mb-4 mb-md-0">
+                    <div class="position-relative d-inline-block">
+                        <img src="{{ player.photo }}" alt="{{ player.name }}" 
+                             class="img-fluid rounded-circle border border-4 border-light shadow-lg player-photo mb-4">
+                        <div class="photo-glow position-absolute top-0 start-0 w-100 h-100 rounded-circle"></div>
+                    </div>
+                    
+                    <h1 class="h2 fw-bold text-dark mb-3">{{ player.name }}</h1>
+                    
+                    <div class="position-badge mb-4">
+                        <span class="badge bg-primary bg-gradient px-4 py-3 rounded-pill fs-5 fw-semibold">
+                            {{ player.position }}
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="col-md-8">
+                    <div class="info-grid">
+                        <div class="info-card bg-light rounded-3 p-4 mb-4 border-start border-4 border-primary">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-birthday-cake text-primary fa-lg me-3"></i>
+                                <div>
+                                    <div class="text-muted small">AGE</div>
+                                    <div class="fw-bold fs-3 text-dark">{{ (date('now')|date('Y') - player.birthdate|date('Y')) }} years</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="info-card bg-light rounded-3 p-4 mb-4 border-start border-4 border-success">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-users text-success fa-lg me-3"></i>
+                                <div>
+                                    <div class="text-muted small">TEAM</div>
+                                    <a href="{{ path('team_show', {'id': player.team.id}) }}" 
+                                       class="fw-bold fs-3 text-success text-decoration-none d-flex align-items-center">
+                                        {{ player.team.name }}
+                                        <i class="fas fa-external-link-alt fa-sm ms-2"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="{{ path('home') }}" class="btn btn-lg btn-primary rounded-pill px-5 py-3">
+            <i class="fas fa-search me-2"></i>Back to search
+        </a>
+    </div>
+</div>
+
+<style>
+    .player-photo {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+    }
+    
+    .photo-glow {
+        background: radial-gradient(circle at center, rgba(37, 99, 235, 0.1) 0%, transparent 70%);
+        pointer-events: none;
+    }
+    
+    .info-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .info-card {
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .info-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .info-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .info-card:hover::before {
+        opacity: 1;
+    }
+    
+    .position-badge .badge {
+        box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+        transition: all 0.3s ease;
+    }
+    
+    .position-badge .badge:hover {
+        transform: scale(1.05);
+        box-shadow: 0 15px 30px rgba(37, 99, 235, 0.3);
+    }
+    
+    .bg-gradient {
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        border: none;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+    }
+    
+    @media (min-width: 768px) {
+        .info-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+</style>
+{% endblock %}

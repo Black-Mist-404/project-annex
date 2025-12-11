@@ -1,0 +1,171 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Team Info - {{ team.name }}{% endblock %}
+
+{% block body %}
+<div class="container-fluid px-4 py-5">
+    <div class="card border-0 shadow-lg rounded-3 overflow-hidden mb-4">
+        <div class="card-body p-5">
+            <div class="row align-items-center">
+                <div class="col-md-3 text-center mb-4 mb-md-0">
+                    <div class="position-relative d-inline-block">
+                        <img src="{{ team.logo }}" alt="{{ team.name }}" 
+                             class="img-fluid rounded-circle border border-4 border-light shadow-lg team-logo">
+                        <div class="logo-glow position-absolute top-0 start-0 w-100 h-100 rounded-circle"></div>
+                    </div>
+                </div>
+                
+                <div class="col-md-9">
+                    <h1 class="display-4 fw-bold text-dark mb-3">{{ team.name }}</h1>
+                    
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <div class="info-badge bg-primary bg-opacity-10 border-start border-4 border-primary p-3 rounded-2">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-calendar-alt text-primary fa-lg me-3"></i>
+                                    <div>
+                                        <div class="text-muted small">FOUNDED</div>
+                                        <div class="fw-bold fs-4 text-primary">{{ team.foundedYear }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="info-badge bg-warning bg-opacity-10 border-start border-4 border-warning p-3 rounded-2">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-trophy text-warning fa-lg me-3"></i>
+                                    <div>
+                                        <div class="text-muted small">TITLES</div>
+                                        <div class="fw-bold fs-4 text-warning">{{ team.titles }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="info-badge bg-success bg-opacity-10 border-start border-4 border-success p-3 rounded-2">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-globe text-success fa-lg me-3"></i>
+                                    <div>
+                                        <div class="text-muted small">COUNTRY</div>
+                                        <div class="fw-bold fs-4 text-success">{{ team.country }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-lg rounded-3 overflow-hidden">
+        <div class="card-body p-5">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="h3 fw-bold text-dark mb-0">
+                    <i class="fas fa-users text-primary me-2"></i>Players
+                </h2>
+                <span class="badge bg-primary bg-opacity-10 text-primary fs-6 px-3 py-2 rounded-pill">
+                    {{ team.players|length }} players
+                </span>
+            </div>
+            
+            {% if team.players|length > 0 %}
+            <div class="list-group list-group-flush">
+                {% for player in team.players %}
+                <a href="{{ path('player_show', {'id': player.id}) }}" 
+                   class="list-group-item list-group-item-action border-0 py-3 px-0">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <div class="avatar-sm rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center">
+                                <i class="fas fa-user text-primary"></i>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="fw-semibold text-dark mb-1">{{ player.name }}</h5>
+                                    <span class="badge bg-primary bg-opacity-25 text-primary rounded-pill">
+                                        {{ player.position }}
+                                    </span>
+                                </div>
+                                <div>
+                                    <i class="fas fa-chevron-right text-muted"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                {% if not loop.last %}
+                <hr class="my-2 opacity-25">
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="text-center py-5">
+                <i class="fas fa-user-slash fa-4x text-muted opacity-25 mb-3"></i>
+                <p class="text-muted mb-0">No players in this team</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="{{ path('home') }}" class="btn btn-lg btn-outline-primary rounded-pill px-5 py-3">
+            <i class="fas fa-arrow-left me-2"></i>Back to search
+        </a>
+    </div>
+</div>
+
+<style>
+    .team-logo {
+        width: 140px;
+        height: 140px;
+        object-fit: contain;
+        padding: 10px;
+        background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+    }
+    
+    .logo-glow {
+        background: radial-gradient(circle at center, rgba(37, 99, 235, 0.1) 0%, transparent 70%);
+        pointer-events: none;
+    }
+    
+    .info-badge {
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+    
+    .info-badge:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .list-group-item {
+        transition: all 0.3s ease;
+        border-radius: 8px;
+        margin-bottom: 4px;
+    }
+    
+    .list-group-item:hover {
+        background-color: rgba(37, 99, 235, 0.05);
+        transform: translateX(5px);
+    }
+    
+    .avatar-sm {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .btn-outline-primary {
+        border-width: 2px;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-outline-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(37, 99, 235, 0.15);
+    }
+</style>
+{% endblock %}

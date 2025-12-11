@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Your Email - FootballDB</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background: #f5f7fa;
+        }
+        
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            padding: 2rem;
+            text-align: center;
+            color: white;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+        
+        .content {
+            padding: 2.5rem;
+        }
+        
+        .button {
+            display: inline-block;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+        
+        .footer {
+            background: #f8fafc;
+            padding: 1.5rem;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.9rem;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .feature {
+            text-align: center;
+            padding: 1rem;
+        }
+        
+        .icon {
+            font-size: 2rem;
+            color: #2563eb;
+            margin-bottom: 0.5rem;
+        }
+        
+        @media (max-width: 600px) {
+            .content {
+                padding: 1.5rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h1>Welcome to FootballDB! ⚽</h1>
+            <p>Please confirm your email address</p>
+        </div>
+        
+        <div class="content">
+            <h2>Hi there! 👋</h2>
+            <p>Thank you for joining FootballDB. We're excited to have you on board!</p>
+            <p>To complete your registration and start exploring football teams and players, please confirm your email address by clicking the button below:</p>
+            
+            <div style="text-align: center; margin: 2rem 0;">
+                <a href="{{ signedUrl|raw }}" class="button">
+                    Confirm My Email Address
+                </a>
+            </div>
+            
+            <p style="color: #64748b; font-size: 0.9rem;">
+                <strong>Note:</strong> This link will expire in {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+                If you didn't create an account with FootballDB, you can safely ignore this email.
+            </p>
+            
+            <div class="features">
+                <div class="feature">
+                    <div class="icon">🔍</div>
+                    <h4>Advanced Search</h4>
+                    <p style="font-size: 0.9rem;">Find teams & players worldwide</p>
+                </div>
+                <div class="feature">
+                    <div class="icon">⭐</div>
+                    <h4>Save Favorites</h4>
+                    <p style="font-size: 0.9rem;">Bookmark your favorite content</p>
+                </div>
+                <div class="feature">
+                    <div class="icon">📊</div>
+                    <h4>Detailed Stats</h4>
+                    <p style="font-size: 0.9rem;">Access comprehensive statistics</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© {{ "now"|date("Y") }} Football Database. All rights reserved.</p>
+            <p>If you're having trouble clicking the button, copy and paste this URL into your browser:<br>
+            <small style="color: #94a3b8;">{{ signedUrl|raw }}</small></p>
+        </div>
+    </div>
+</body>
+</html>

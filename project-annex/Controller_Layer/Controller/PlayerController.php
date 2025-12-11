@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
+use App\Entity\Player;
+
+final class PlayerController extends AbstractController
+{
+    #[Route('/player/{id}', name: 'player_show')]
+    public function showPlayer(Player $player): Response
+    {
+        return $this->render('player/index.html.twig', [
+            'player' => $player ,
+            'controller_name' => 'PlayerController',
+        ]);
+    }
+}

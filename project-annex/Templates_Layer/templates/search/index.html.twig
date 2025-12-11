@@ -1,0 +1,168 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Football Search - Find Teams & Players{% endblock %}
+
+{% block body %}
+<div class="hero-section text-center mb-4">
+    <h1 class="mb-2" style="font-size: 2.5rem; color: var(--secondary);">
+        <i class="fas fa-search"></i> Football Search
+    </h1>
+    <p class="text-muted" style="font-size: 1.1rem;">
+        Search for football teams and players worldwide
+    </p>
+</div>
+
+<div class="card">
+    <form method="get" action="{{ path('home') }}" class="search-form">
+        <div style="display: flex; gap: 10px; max-width: 600px; margin: 0 auto;">
+            <input 
+                type="text" 
+                name="q" 
+                placeholder="Search teams, players, or countries..." 
+                value="{{ query }}"
+                style="flex: 1; padding: 1rem; border: 2px solid var(--gray-light); border-radius: var(--radius); font-size: 1rem;"
+                autofocus
+            >
+            <button type="submit" class="btn btn-primary" style="padding: 1rem 2rem;">
+                <i class="fas fa-search"></i> Search
+            </button>
+        </div>
+        
+        {% if query %}
+            <div class="text-center mt-2">
+                <p>Search results for: <strong>"{{ query }}"</strong></p>
+            </div>
+        {% endif %}
+    </form>
+</div>
+
+{% if teams or players %}
+<div class="results-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
+    
+    {% if teams %}
+    <div class="card">
+        <div class="section-header" style="display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem;">
+            <i class="fas fa-users" style="color: var(--primary); font-size: 1.5rem;"></i>
+            <h2>Teams ({{ teams|length }})</h2>
+        </div>
+        
+        <div class="teams-grid" style="display: grid; gap: 1rem;">
+        {% for team in teams %}
+            <a href="{{ path('team_show', {'id': team.id}) }}" 
+               class="team-item" 
+               style="display: flex; align-items: center; gap: 15px; padding: 1rem; background: var(--light); border-radius: var(--radius); text-decoration: none; color: inherit; transition: var(--transition);">
+                {% if team.logo %}
+                <img src="{{ team.logo }}" alt="{{ team.name }}" width="50" height="50" style="border-radius: 50%; object-fit: cover;">
+                {% else %}
+                <div style="width: 50px; height: 50px; background: var(--gray-light); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-users" style="color: var(--gray);"></i>
+                </div>
+                {% endif %}
+                <div>
+                    <h3 style="margin: 0; font-size: 1.1rem; color: var(--secondary);">{{ team.name }}</h3>
+                    {% if team.country %}
+                    <p style="margin: 0; font-size: 0.9rem; color: var(--gray);">
+                        <i class="fas fa-globe"></i> {{ team.country }}
+                    </p>
+                    {% endif %}
+                </div>
+            </a>
+        {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    
+    {% if players %}
+    <div class="card">
+        <div class="section-header" style="display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem;">
+            <i class="fas fa-user" style="color: var(--success); font-size: 1.5rem;"></i>
+            <h2>Players ({{ players|length }})</h2>
+        </div>
+        
+        <div class="players-grid" style="display: grid; gap: 1rem;">
+        {% for player in players %}
+            <a href="{{ path('player_show', {'id': player.id}) }}" 
+               class="player-item" 
+               style="display: flex; align-items: center; gap: 15px; padding: 1rem; background: var(--light); border-radius: var(--radius); text-decoration: none; color: inherit; transition: var(--transition);">
+                {% if player.photo %}
+                <img src="{{ player.photo }}" alt="{{ player.name }}" width="50" height="50" style="border-radius: 50%; object-fit: cover;">
+                {% else %}
+                <div style="width: 50px; height: 50px; background: var(--gray-light); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-user" style="color: var(--gray);"></i>
+                </div>
+                {% endif %}
+                <div>
+                    <h3 style="margin: 0; font-size: 1.1rem; color: var(--secondary);">{{ player.name }}</h3>
+                    {% if player.position %}
+                    <p style="margin: 0; font-size: 0.9rem; color: var(--gray);">
+                        <i class="fas fa-tag"></i> {{ player.position }}
+                    </p>
+                    {% endif %}
+                </div>
+            </a>
+        {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% elseif query %}
+<div class="card text-center">
+    <i class="fas fa-search" style="font-size: 3rem; color: var(--gray-light); margin-bottom: 1rem;"></i>
+    <h3>No results found</h3>
+    <p class="text-muted">Try different search terms or browse all teams and players</p>
+</div>
+{% else %}
+<div class="card text-center">
+    <div class="welcome-content">
+        <i class="fas fa-futbol" style="font-size: 4rem; color: var(--primary); margin-bottom: 1rem;"></i>
+        <h2>Welcome to Football Database</h2>
+        <p class="text-muted mb-3">
+            Search for your favorite football teams and players. 
+            Get detailed information about teams, their players, and statistics.
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
+            <div style="text-align: center;">
+                <div style="width: 60px; height: 60px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px;">
+                    <i class="fas fa-users" style="font-size: 1.5rem;"></i>
+                </div>
+                <p><strong>Teams</strong></p>
+            </div>
+            <div style="text-align: center;">
+                <div style="width: 60px; height: 60px; background: var(--success); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px;">
+                    <i class="fas fa-user" style="font-size: 1.5rem;"></i>
+                </div>
+                <p><strong>Players</strong></p>
+            </div>
+            <div style="text-align: center;">
+                <div style="width: 60px; height: 60px; background: var(--accent); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px;">
+                    <i class="fas fa-chart-bar" style="font-size: 1.5rem;"></i>
+                </div>
+                <p><strong>Stats</strong></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<style>
+    .team-item:hover, .player-item:hover {
+        background: #e0f2fe !important;
+        transform: translateX(5px);
+    }
+    
+    .search-form input:focus {
+        outline: none;
+        border-color: var(--primary) !important;
+    }
+    
+    @media (max-width: 768px) {
+        .results-container {
+            grid-template-columns: 1fr;
+        }
+        
+        .search-form div {
+            flex-direction: column;
+        }
+    }
+</style>
+{% endblock %}
